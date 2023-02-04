@@ -64,3 +64,16 @@ func CriarNovoProduto(nome string, descricao string, quantidade int, preco float
 	defer DBase.Close()
 
 }
+
+func DeletaProduto(id string) {
+	DBase := db.ConectaBD()
+
+	deletarOProduto, err := DBase.Prepare("delete from produtos where id=$1")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	deletarOProduto.Exec(id)
+	defer DBase.Close()
+
+}
