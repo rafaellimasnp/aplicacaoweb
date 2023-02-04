@@ -3,7 +3,7 @@ package models
 import "github/rafaellimasnp/aplicacaoweb/db"
 
 type Produto struct {
-	id         int
+	Id         int
 	Nome       string
 	Descricao  string
 	Preco      float64
@@ -35,7 +35,7 @@ func BuscaTodosOsProdutos() []Produto {
 			panic(err.Error())
 		}
 
-		p.id = id
+		p.Id = id
 		p.Nome = nome
 		p.Descricao = descricao
 		p.Preco = preco
