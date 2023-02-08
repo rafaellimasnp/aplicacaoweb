@@ -1,6 +1,6 @@
 {{define "Edit"}}
-
 {{template "_head"}}
+
 {{template "_menu"}}
 
 <div class="container">
@@ -8,11 +8,12 @@
     <body>
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
-                <h1 class="display-5">Editando Produto</h1>
-                <p class="lead">Os dados para editar </p>
+                <h1 class="display-5">Editando produto</h1>
+                <p class="lead">Insira os dados para atualizar ou editar</p>
             </div>
         </div>
-        <form method="POST" action="insert">
+        <form method="POST" action="update">
+            <input type="hidden" name="id" value="{{.Id}}" >
             <div class="row">
                 <div class="col-sm-8">
                     <div class="form-group">
@@ -56,8 +57,4 @@
 </body>
 
 </html>
-
-
-
-
 {{end}}

@@ -16,7 +16,7 @@ func BuscaTodosOsProdutos() []Produto {
 
 	DBase := db.ConectaBD()
 
-	selectProdutos, err := DBase.Query("SELECT * FROM produtos")
+	selectProdutos, err := DBase.Query("SELECT * FROM produtos ORDER BY id asc")
 
 	if err != nil {
 		panic(err.Error())
@@ -100,6 +100,7 @@ func EditaProduto(id string) Produto {
 		if err != nil {
 			panic(err.Error())
 		}
+		produtoParaAtualizar.Id = id
 		produtoParaAtualizar.Nome = nome
 		produtoParaAtualizar.Descricao = descricao
 		produtoParaAtualizar.Quantidade = quantidade
@@ -109,4 +110,18 @@ func EditaProduto(id string) Produto {
 	defer DBase.Close()
 	return produtoParaAtualizar
 
+}
+
+func AtualizaProduto(id int, nome, descricao string, preco float64, quantidade int) {
+
+	DBase := db.ConectaBD()
+
+	AtualizaProduto, err := DBase.Prepare("update produtos set nome=$1 , descricao=$2, preco=$3, quantidade=$4 where id=$5")
+
+	if err != nil {
+		panic(err.Error())
+	}
+	AtualizaProduto.Exec(nome, descricao, preco, quantidade, id)
+
+	defer DBase.Close()
 }
