@@ -1,6 +1,8 @@
 package models
 
-import "github/rafaellimasnp/aplicacaoweb/db"
+import (
+	"github/rafaellimasnp/aplicacaoweb/db"
+)
 
 type Produto struct {
 	Id         int
@@ -75,5 +77,36 @@ func DeletaProduto(id string) {
 
 	deletarOProduto.Exec(id)
 	defer DBase.Close()
+
+}
+
+func EditaProduto(id string) Produto {
+	DBase := db.ConectaBD()
+
+	produtoDoBanco, err := DBase.Query("select * from produtos where id=$1", id)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	produtoParaAtualizar := Produto{}
+
+	for produtoDoBanco.Next() {
+		var id, quantidade int
+		var nome, descricao string
+		var preco float64
+
+		err = produtoDoBanco.Scan(&id, &nome, &descricao, &preco, &quantidade)
+		if err != nil {
+			panic(err.Error())
+		}
+		produtoParaAtualizar.Nome = nome
+		produtoParaAtualizar.Descricao = descricao
+		produtoParaAtualizar.Quantidade = quantidade
+		produtoParaAtualizar.Preco = preco
+	}
+
+	defer DBase.Close()
+	return produtoParaAtualizar
 
 }
